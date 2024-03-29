@@ -37,7 +37,7 @@ export class ReviewsService {
         deletedAt: null,
       },
     });
-    console.log(existedReview);
+
     if (existedReview) throw new DuplicatedReviewException();
 
     let image;
@@ -129,7 +129,7 @@ export class ReviewsService {
 
   async findUniqueReview(reviewId: number) {
     const foundReview = await this.prismaService.review.findUnique({
-      where: { id: reviewId, deletedAt: null },
+      where: { id: reviewId },
     });
 
     return foundReview;
@@ -137,7 +137,7 @@ export class ReviewsService {
 
   async getUsersReviews(user: User, userId: number) {
     const reviews = await this.prismaService.review.findMany({
-      where: { reviewerId: userId, deletedAt: null },
+      where: { reviewerId: userId },
     });
 
     const reviewsWithReviewer = reviews.map((review) => {
@@ -159,7 +159,7 @@ export class ReviewsService {
     );
 
     const reviews = await this.prismaService.review.findMany({
-      where: { eventId, deletedAt: null },
+      where: { eventId },
       select: {
         id: true,
         reviewerId: true,
@@ -227,7 +227,7 @@ export class ReviewsService {
     const reviewIds = reactions.map((reaction) => reaction.reviewId);
 
     const reviews = await this.prismaService.review.findMany({
-      where: { id: { in: reviewIds }, deletedAt: null },
+      where: { id: { in: reviewIds } },
       select: {
         id: true,
         reviewerId: true,
