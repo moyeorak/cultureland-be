@@ -211,7 +211,6 @@ export class ReviewsService {
       by: ['reviewId'],
       where: {
         reactionValue: 1,
-        deletedAt: null,
       },
       _count: {
         reactionValue: true,
