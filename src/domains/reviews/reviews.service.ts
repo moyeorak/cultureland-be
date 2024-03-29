@@ -86,17 +86,17 @@ export class ReviewsService {
     const { eventId, rating, content } = dto;
     const userId = user.id;
 
-    let image;
-    if (imageFile) {
-      image = await uploadImageToS3(imageFile, 'review');
-    } else {
-      image = null;
-    }
-
     const foundReview = await this.findUniqueReview(reviewId);
     if (!foundReview) return new ReviewNotFoundById();
     if (userId !== foundReview.reviewerId)
       throw new PermissionDeniedToEditReviewException();
+
+    let image;
+    if (imageFile) {
+      image = await uploadImageToS3(imageFile, 'review');
+    } else {
+      image = foundReview.image;
+    }
 
     const updatedReview = await this.prismaService.review.update({
       where: { id: reviewId },
