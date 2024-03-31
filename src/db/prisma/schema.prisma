@@ -113,11 +113,10 @@ model ReviewReaction {
   userId        Int
   reviewId      Int
   reactionValue Int
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  deletedAt     DateTime?
-  review        Review    @relation(fields: [reviewId], references: [id])
-  user          User      @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  review        Review   @relation(fields: [reviewId], references: [id])
+  user          User     @relation(fields: [userId], references: [id])
 
   @@id([userId, reviewId])
 }
